@@ -38,25 +38,19 @@
     <div class="custom" style="display: none">
       <span>oxo.cat/</span>
       <input id="custom" type="text" placeholder="自定义一把" autocomplete="off">
-      <span id="stat">不可用</span>
-      <button class="meow" type="submit">短短短</button>
+      <span id="stat" style="display: none">不可用</span>
+      <button id="meow" class="meow" type="submit">短短短</button>
     </div>
+  </div>
+  <div id="oxo" style="display: none">
+    <span id="clip" value="">http://oxo.cat/<span id="res"></span></span>
+    <button class="meow" data-clipboard-target="#clip">复制</button>
   </div>
 
   <span class="footer">Made with <span style="color: rgba(242, 101, 33, 1);">❤</span> in Amoy, by <a href="http://2x.io">Neo</a>.</span>
 
   <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $("#url").focus(function(){
-        $(".custom").slideDown();
-      });
-      $("#url").blur(function(){
-        if ($("#url").val().length == 0) {
-          $(".custom").slideUp();
-        }
-      });
-    });
-  </script>
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.9/clipboard.min.js"></script>
+  <script src="static/js/oxo.js"></script>
 </body>
 </html>
