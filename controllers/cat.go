@@ -3,6 +3,8 @@ package cat
 import (
     "github.com/astaxie/beego"
     "strings"
+    "gopkg.in/redis.v3"
+    "fmt"
 )
 
 const codeLength = 5
@@ -31,6 +33,18 @@ func CodeToID(code string) int {
     return id
 }
 
+func ExampleNewClient() {
+    client := redis.NewClient(&redis.Options{
+        Addr:     "120.27.122.121:5577",
+        Password: "", // no password set
+        DB:       0,  // use default DB
+    })
+
+    pong, err := client.Ping().Result()
+    fmt.Println(pong, err)
+    // Output: PONG <nil>
+}
+
 type SFO struct {    // Shovel Feces Officer
     beego.Controller
 }
@@ -48,11 +62,15 @@ type URLWizard struct {
 }
 
 func (x *SFO) Get() {
+    //ExampleNewClient()
+    x.Data["appName"] = beego.AppConfig.String("appname")
+    x.Data["appDescription"] = beego.AppConfig.String("description")
+    x.Data["appSite"] = beego.AppConfig.String("appsite")
     x.TplName = "index.tpl"
 }
 
 func (s *URLShortener) Post() {
-    code := "aksjq"
+    code := "xxx"
     s.Data["json"] = &code
     s.ServeJSON()
 }

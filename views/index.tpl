@@ -7,17 +7,17 @@
   <meta name="robots" content="index, nofollow">
 
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="HEX to RGB">
+  <meta name="apple-mobile-web-app-title" content="{{.appName}}">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <meta name="description" content="A simple tool for converting HEX values to RGB and vice versa.">
-  <meta name="keywords" content="hex, hexadecimal, rgb, converter, hex to rgb, hexadecimal to rgb, hex to rgb converter, rgb to hex, rgb to hex converter, convert hex to rgb, convert rgb to hex, hex to rgb conversion, rgb to hex conversion, hex converter, rgb converter, simple hex to rgb converter">
-  <meta property="og:title" content="HEX to RGB Converter" />
+  <meta name="description" content="{{.appDescription}}">
+  <meta name="keywords" content="">
+  <meta property="og:title" content="{{.appName}}" />
   <meta property="og:image" content="static/images/apple-touch-icon.png" />
-  <meta property="og:description" content="A simple tool for converting HEX values to RGB and vice versa." />
-  <meta property="og:url" content="http://hex.colorrrs.com" />
+  <meta property="og:description" content="{{.appDescription}}" />
+  <meta property="og:url" content="{{.appSite}}" />
 
-  <title>OxO</title>
+  <title>{{.appName}}</title>
 
   <link rel="apple-touch-icon-precomposed" sizes="57x57" href="static/images/apple-touch-icon-57.png">
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="static/images/apple-touch-icon-72.png">
@@ -31,7 +31,7 @@
 </head>
 <body>
 
-  <a class="c" href="http://oxo.cat" tabindex="-1">OxO</a>
+  <a class="c" href="{{.appSite}}" tabindex="-1">{{.appName}}</a>
 
   <div id="wrap">
     <input id="url" type="text" placeholder="长地址" autocomplete="off">
@@ -43,7 +43,7 @@
     </div>
   </div>
   <div id="oxo" style="display: none">
-    <span id="clip" value="">http://oxo.cat/<span id="res"></span></span>
+    <span id="clip" value="">{{.appSite}}/<span id="res"></span></span>
     <button class="meow" data-clipboard-target="#clip">复制</button>
   </div>
 
