@@ -6,5 +6,7 @@ import (
 )
 
 func init() {
-    beego.Router("/", &controllers.MainController{})
+    beego.Router("/", &cat.SFO{})
+    beego.Router("/s/gen", &cat.URLShortener{})
+    beego.Router("/:shorten("+beego.AppConfig.String("minlength")+",})", &cat.URLWizard{})
 }
