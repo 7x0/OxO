@@ -32,7 +32,7 @@ a:focus {
 
 input {
     display: block;
-    width: 335px;
+    width: 370px;
     font-size: 22px;
     line-height: 34px;
     background: 0 0;
@@ -87,7 +87,7 @@ input:focus {
 }
 
 #wrap {
-    width: 340px;
+    width: 380px;
     height: 125px;
     position: absolute;
     top: 50%;

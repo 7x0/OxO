@@ -12,6 +12,10 @@ type URLShortener struct {
     beego.Controller
 }
 
+type URLChecker struct {
+    beego.Controller
+}
+
 type URLWizard struct {
     beego.Controller
 }

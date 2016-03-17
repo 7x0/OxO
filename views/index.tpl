@@ -36,8 +36,9 @@
   <div id="wrap">
     <input id="url" type="text" placeholder="长地址" autocomplete="off">
     <div class="custom" style="display: none">
-      <div>oxo.cat/</div>
-      <input id="custom" type="text" placeholder="自定义" autocomplete="off">
+      <span>oxo.cat/</span>
+      <input id="custom" type="text" placeholder="自定义一把" autocomplete="off">
+      <span id="stat">不可用</span>
       <button class="meow" type="submit">短短短</button>
     </div>
   </div>
