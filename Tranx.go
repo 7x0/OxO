@@ -3,29 +3,12 @@ import (
     "fmt"
     "time"
     "strings"
+    "runtime"
 )
 
 const codeLength = 5
 const BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 var power = [codeLength]int {14776336, 238328, 3844, 62, 1}
-
-func IDToBase62(id int) [codeLength]int {
-    result := [codeLength]int{0}
-    for counter := codeLength - 1; id > 0; counter-- {
-        remainder := id % 62
-        result[counter] = remainder
-        id /= 62
-    }
-    return result
-}
-
-func Base62ToCode(result [codeLength]int) string {
-    source := ""
-    for _, value := range result {
-        source += string(BASE62[value])
-    }
-    return source
-}
 
 func IDToCode(id int) string{
     code := ""
@@ -50,18 +33,22 @@ func CodeToID(code string) int {
 }
 
 func URLTransfer(id int) {
-
-    start := time.Now().UnixNano()
-    //code := Base62ToCode(IDToBase62(id))
-    code := IDToCode(id)
-    _id := CodeToID(code)
-    stop := time.Now().UnixNano()
-    runtime := stop - start
-    fmt.Printf("Runtime: %dns ≈ %dms ID: %d\n", runtime, runtime / 1000, _id)
-    //fmt.Printf("Origin ID: %d, Translated code: %s, Translated ID: %d\n", id,  code, _id)
+    //start := time.Now().UnixNano()
+    IDToCode(id)
+    //fmt.Printf("Code: %s\n", code)
+    //_id := CodeToID(code)
+    //stop := time.Now().UnixNano()
+    //runtime := stop - start
+    //fmt.Printf("Origin ID: %d, Translated code: %s, Runtime: %dns ≈ %dms\n", id,  code, runtime, runtime / 1000)
 }
 
 
 func main() {
-    URLTransfer(158123123)
+    start := time.Now().UnixNano()
+    for i := 0; i < 10; i++ {
+        URLTransfer(i)
+    }
+    stop := time.Now().UnixNano()
+    runt := stop - start
+    fmt.Printf("Runtime: %dns ≈ %dms\n", runt, runt / 1000)
 }
