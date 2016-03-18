@@ -75,7 +75,7 @@ func StoreURL(id int, target string) {
     if err != nil {
         panic(err)
     } else {
-        if err := client.Incr("id:pointer").Err(); err != nil {
+        if err := redisClient.Incr("id:pointer").Err(); err != nil {
             panic(err)
         }
     }
