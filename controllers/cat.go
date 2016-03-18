@@ -87,7 +87,7 @@ type URLWizard struct {
 }
 
 func (x *SFO) Get() {
-    //RedisConnect()
+    RedisConnect()
     x.Data["appName"] = beego.AppConfig.String("appname")
     x.Data["appDescription"] = beego.AppConfig.String("description")
     x.Data["appSite"] = beego.AppConfig.String("appsite")
