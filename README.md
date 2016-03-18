@@ -7,14 +7,16 @@
 
 ## Document
 
-### Router
-
-- / => 首页
-- /s/gen => 生成
+暂时还没来得及写
 
 ## Project stat
 
-Coffee x 1
+Coffee x 2
+
+## TODO
+
+- 重构
+- 性能测试和调整
 
 ## License
 
