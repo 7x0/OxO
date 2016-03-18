@@ -54,6 +54,13 @@ func RedisConnect() {
     // Output: PONG <nil>
 }
 
+func RedisInit() {
+    err := redisClient.Set("id:pointer", 0, 0).Err()
+    if err != nil {
+        panic(err)
+    }
+}
+
 func AssignID() int {
     val, err := redisClient.Get("id:pointer").Result()
     if err != nil {
@@ -64,9 +71,13 @@ func AssignID() int {
 }
 
 func StoreURL(id int, target string) {
-    err := redisClient.Set("id:"+strconv.Itoa(id), "value", 0).Err()
+    err := redisClient.Set("id:"+strconv.Itoa(id), target, 0).Err()
     if err != nil {
         panic(err)
+    } else {
+        if err := client.Incr("id:pointer").Err(); err != nil {
+            panic(err)
+        }
     }
 }
 
@@ -88,6 +99,7 @@ type URLWizard struct {
 
 func (x *SFO) Get() {
     RedisConnect()
+    RedisInit()
     x.Data["appName"] = beego.AppConfig.String("appname")
     x.Data["appDescription"] = beego.AppConfig.String("description")
     x.Data["appSite"] = beego.AppConfig.String("appsite")
