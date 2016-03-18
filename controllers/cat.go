@@ -76,7 +76,7 @@ func (x *SFO) Get() {
 }
 
 func (s *URLShortener) Post() {
-    target := s.GetString("target")
+    target := s.GetString("url")
     // TODO: Target validate
     RedisConnect()
     code := CodeGenerator()
