@@ -2,7 +2,6 @@ package cat
 
 import (
     "github.com/astaxie/beego"
-    "strings"
     "gopkg.in/redis.v3"
     "math/rand"
 )
