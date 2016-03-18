@@ -43,7 +43,7 @@ func StoreURL(tag string, target string) {
 }
 
 func GetURL(tag string) string {
-    target, err := client.Get("tag:"+tag).Result()
+    target, err := redisClient.Get("tag:"+tag).Result()
     if err != nil {
         panic(err)
     }
