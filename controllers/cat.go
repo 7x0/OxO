@@ -26,13 +26,11 @@ func RedisConnect() {
     pass := beego.AppConfig.String("redispass")
     db, _ := beego.AppConfig.Int64("redisdb")
     // Get config from conf
-
     client := redis.NewClient(&redis.Options{
         Addr:     ip+":"+port,
         Password: pass, // no password set
         DB:       db,  // use default DB
     })
-
     redisClient = client
 }
 
@@ -54,8 +52,20 @@ func GetURL(tag string) string {
 
 func URLValidator(url string) bool {
     re := "^(https:[/][/]|http:[/][/]|www.)[a-zA-Z0-9\\-\\.]+\\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\\-\\._\\?\\,\\'/\\\\+&amp;%\\$#\\=~])*$"
-    match, _ := regexp.MatchString(re, "http://www.google.com")
+    match, _ := regexp.MatchString(re, url)
     return match
+}
+
+func TagChecker(tag string) bool {
+    re := "[a-zA-Z0-9]{"+beego.AppConfig.String("minlength")+",}"
+    match, _ := regexp.MatchString(re, tag)
+    if match {
+        _, err := redisClient.Get("tag:"+tag).Result()
+        if err == redis.Nil {
+            return true
+        }
+    }
+    return false
 }
 
 type SFO struct {    // Shovel Feces Officer
@@ -84,16 +94,24 @@ func (x *SFO) Get() {
 
 func (s *URLShortener) Post() {
     target := s.GetString("url")
+    custom := s.GetString("custom")
     code := ""
     if URLValidator(target) {
         RedisConnect()
-        code = CodeGenerator()
-        for true {
-            _, err := redisClient.Get("tag:"+code).Result()
-            if err == redis.Nil {
-                break
+        min, _ := beego.AppConfig.Int("minlength")
+        if len(custom) > min {
+            if TagChecker(custom) {
+                code = custom
             }
+        } else {
             code = CodeGenerator()
+            for true {
+                _, err := redisClient.Get("tag:"+code).Result()
+                if err == redis.Nil {
+                    break
+                }
+                code = CodeGenerator()
+            }
         }
         StoreURL(code, target)
     }
@@ -102,8 +120,9 @@ func (s *URLShortener) Post() {
 }
 
 func (c *URLChecker) Post() {
-    //tag := c.GetString("custom")
-    available := false
+    tag := c.GetString("custom")
+    RedisConnect()
+    available := TagChecker(tag)
     c.Data["json"] = &available
     c.ServeJSON()
 }
@@ -115,3 +134,4 @@ func (w *URLWizard) Get() {
     target := GetURL(tag)
     w.Redirect(target, 302)
 }
+
