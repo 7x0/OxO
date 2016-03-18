@@ -51,6 +51,10 @@ func GetURL(tag string) string {
     return target
 }
 
+func URLValidator(url string) bool {
+    return true
+}
+
 type SFO struct {    // Shovel Feces Officer
     beego.Controller
 }
@@ -77,13 +81,20 @@ func (x *SFO) Get() {
 
 func (s *URLShortener) Post() {
     target := s.GetString("url")
+    code := ""
     // TODO: Target validate
-    RedisConnect()
-    code := CodeGenerator()
-    for redisClient.Exists(code) {
-        code := CodeGenerator()
+    if URLValidator(target) {
+        RedisConnect()
+        code = CodeGenerator()
+        for true {
+            _, err := redisClient.Get("tag:"+code).Result()
+            if err == redis.Nil {
+                break
+            }
+            code = CodeGenerator()
+        }
+        StoreURL(code, target)
     }
-    StoreURL(code, target)
     s.Data["json"] = &code
     s.ServeJSON()
 }
