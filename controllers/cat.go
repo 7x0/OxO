@@ -4,6 +4,7 @@ import (
     "github.com/astaxie/beego"
     "gopkg.in/redis.v3"
     "math/rand"
+    "regexp"
 )
 
 const codeLength = 5
@@ -52,7 +53,9 @@ func GetURL(tag string) string {
 }
 
 func URLValidator(url string) bool {
-    return true
+    re := "^(https:[/][/]|http:[/][/]|www.)[a-zA-Z0-9\\-\\.]+\\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\\-\\._\\?\\,\\'/\\\\+&amp;%\\$#\\=~])*$"
+    match, _ := regexp.MatchString(re, "http://www.google.com")
+    return match
 }
 
 type SFO struct {    // Shovel Feces Officer
@@ -82,7 +85,6 @@ func (x *SFO) Get() {
 func (s *URLShortener) Post() {
     target := s.GetString("url")
     code := ""
-    // TODO: Target validate
     if URLValidator(target) {
         RedisConnect()
         code = CodeGenerator()
