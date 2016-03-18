@@ -10,6 +10,7 @@ import (
 const codeLength = 5
 const BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 var power = [codeLength]int {14776336, 238328, 3844, 62, 1}
+var redisClient *redis.Client
 
 func IDToCode(id int) string{
     code := ""
@@ -33,16 +34,38 @@ func CodeToID(code string) int {
     return id
 }
 
-func ExampleNewClient() {
+func RedisConnect() {
+    ip := beego.AppConfig.String("redisip")
+    port := beego.AppConfig.String("redisport")
+    pass := beego.AppConfig.String("redispass")
+    db, err := beego.AppConfig.Int64("redisdb")
+    // Get config from conf
+
     client := redis.NewClient(&redis.Options{
-        Addr:     "120.27.122.121:5577",
-        Password: "", // no password set
-        DB:       0,  // use default DB
+        Addr:     ip+":"+port,
+        Password: pass, // no password set
+        DB:       db,  // use default DB
     })
 
     pong, err := client.Ping().Result()
     fmt.Println(pong, err)
+    redisClient = client
     // Output: PONG <nil>
+}
+
+func AssignID() int {
+    val, err := client.Get("id:pointer").Result()
+    if err != nil {
+        panic(err)
+    }
+    return val+1
+}
+
+func StoreURL(id int, target string) {
+    err := client.Set("id:"+id, "value", 0).Err()
+    if err != nil {
+        panic(err)
+    }
 }
 
 type SFO struct {    // Shovel Feces Officer
@@ -62,7 +85,7 @@ type URLWizard struct {
 }
 
 func (x *SFO) Get() {
-    //ExampleNewClient()
+    //RedisConnect()
     x.Data["appName"] = beego.AppConfig.String("appname")
     x.Data["appDescription"] = beego.AppConfig.String("description")
     x.Data["appSite"] = beego.AppConfig.String("appsite")
@@ -70,7 +93,10 @@ func (x *SFO) Get() {
 }
 
 func (s *URLShortener) Post() {
-    code := "xxx"
+    target := s.GetString("target")
+    id := AssignID()
+    code := IDToCode(id)
+    StoreURL(id, target)
     s.Data["json"] = &code
     s.ServeJSON()
 }
