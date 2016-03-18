@@ -96,6 +96,6 @@ func (w *URLWizard) Get() {
     RedisConnect()
     tag := w.Ctx.Input.Param(":shorten")
     target := GetURL(tag)
-    ctx.Output.Body([]byte(target))
+    w.Output.Body([]byte(target))
     w.Redirect(target, 302)
 }
