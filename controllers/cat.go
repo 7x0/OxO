@@ -4,7 +4,6 @@ import (
     "github.com/astaxie/beego"
     "gopkg.in/redis.v3"
     "math/rand"
-    "fmt"
 )
 
 const codeLength = 5
@@ -46,7 +45,8 @@ func StoreURL(tag string, target string) {
 func GetURL(tag string) string {
     target, err := redisClient.Get("tag:"+tag).Result()
     if err != nil {
-        panic(err)
+        //panic(err)
+        return "/"
     }
     return target
 }
@@ -80,6 +80,9 @@ func (s *URLShortener) Post() {
     // TODO: Target validate
     RedisConnect()
     code := CodeGenerator()
+    for redisClient.Exists(code) {
+        code := CodeGenerator()
+    }
     StoreURL(code, target)
     s.Data["json"] = &code
     s.ServeJSON()
@@ -97,6 +100,5 @@ func (w *URLWizard) Get() {
     RedisConnect()
     tag := w.Ctx.Input.Param(":shorten")
     target := GetURL(tag)
-    fmt.Printf("%s", target)
     w.Redirect(target, 302)
 }
