@@ -95,5 +95,7 @@ func (c *URLChecker) Post() {
 func (w *URLWizard) Get() {
     RedisConnect()
     tag := w.Ctx.Input.Param(":shorten")
-    w.Redirect(GetURL(tag), 302)
+    target := GetURL(tag)
+    ctx.Output.Body([]byte(target))
+    w.Redirect(target, 302)
 }
