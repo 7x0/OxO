@@ -4,6 +4,7 @@ import (
     "github.com/astaxie/beego"
     "gopkg.in/redis.v3"
     "math/rand"
+    "fmt"
 )
 
 const codeLength = 5
@@ -96,6 +97,6 @@ func (w *URLWizard) Get() {
     RedisConnect()
     tag := w.Ctx.Input.Param(":shorten")
     target := GetURL(tag)
-    w.Output.Body([]byte(target))
+    fmt.Printf("%s", target)
     w.Redirect(target, 302)
 }
