@@ -5,6 +5,7 @@ import (
     "strings"
     "gopkg.in/redis.v3"
     "fmt"
+    "strconv"
 )
 
 const codeLength = 5
@@ -54,15 +55,16 @@ func RedisConnect() {
 }
 
 func AssignID() int {
-    val, err := client.Get("id:pointer").Result()
+    val, err := redisClient.Get("id:pointer").Result()
     if err != nil {
         panic(err)
     }
-    return val+1
+    id, err := strconv.Atoi(val)
+    return id + 1
 }
 
 func StoreURL(id int, target string) {
-    err := client.Set("id:"+id, "value", 0).Err()
+    err := redisClient.Set("id:"+strconv.Itoa(id), "value", 0).Err()
     if err != nil {
         panic(err)
     }
@@ -94,6 +96,8 @@ func (x *SFO) Get() {
 
 func (s *URLShortener) Post() {
     target := s.GetString("target")
+    // TODO: Target validate
+    RedisConnect()
     id := AssignID()
     code := IDToCode(id)
     StoreURL(id, target)
