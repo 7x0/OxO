@@ -5,6 +5,7 @@ import (
     "gopkg.in/redis.v3"
     "math/rand"
     "regexp"
+    "github.com/asaskevich/govalidator"
 )
 
 const codeLength = 5
@@ -51,9 +52,7 @@ func GetURL(tag string) string {
 }
 
 func URLValidator(url string) bool {
-    re := "^(https:[/][/]|http:[/][/]|www.)[a-zA-Z0-9\\-\\.]+\\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\\-\\._\\?\\,\\'/\\\\+&amp;%\\$#\\=~])*$"
-    match, _ := regexp.MatchString(re, url)
-    return match
+    return govalidator.IsURL(url)
 }
 
 func TagChecker(tag string) bool {

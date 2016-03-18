@@ -174,4 +174,8 @@ input:focus {
     .c {
         top: 20px
     }
+
+    #wrap, #oxo {
+        width: 340
+    }
 }
