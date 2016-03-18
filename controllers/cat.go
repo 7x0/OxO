@@ -23,7 +23,7 @@ func RedisConnect() {
     ip := beego.AppConfig.String("redisip")
     port := beego.AppConfig.String("redisport")
     pass := beego.AppConfig.String("redispass")
-    db, err := beego.AppConfig.Int64("redisdb")
+    db, _ := beego.AppConfig.Int64("redisdb")
     // Get config from conf
 
     client := redis.NewClient(&redis.Options{
