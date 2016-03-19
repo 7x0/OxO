@@ -100,7 +100,7 @@ func (s *URLShortener) Post() {
     if URLValidator(target) {
         RedisConnect()
         min, _ := beego.AppConfig.Int("minlength")
-        if len(custom) > min {
+        if len(custom) >= min {
             if TagChecker(custom) {
                 code = custom
             }
