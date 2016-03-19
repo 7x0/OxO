@@ -15,6 +15,7 @@ var redisClient *redis.Client
 
 func CodeGenerator() string {
     code := ""
+    rand.Seed(time.Now().UnixNano())
     for i := 0; i < codeLength; i++ {
         code += string(BASE62[rand.Intn(61)])
     }
