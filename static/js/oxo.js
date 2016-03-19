@@ -70,7 +70,7 @@ $(document).ready(function(){
     var s = $("#stat");
     if (tag.val().length != 0) {
       b.attr("disabled","true");
-      $.post("/s/check", {
+      $.post("s/check", {
         custom:tag.val()
       },
       function(data, status){
@@ -94,7 +94,7 @@ $(document).ready(function(){
   $("#meow").click(function(){
     if (URLValidate($("#url").val())) {
       var s = $("#stat");
-      $.post("/s/gen", {
+      $.post("s/gen", {
         url:$("#url").val(),
         custom:$("#custom").val()
       },
