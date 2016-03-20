@@ -129,11 +129,20 @@ input:focus {
     line-height: 30px
 }
 
+
+.github {
+    position: absolute;
+    bottom: 32px;
+    left: 20px;
+    height: 20px
+}
+
 .footer {
     position: absolute;
     bottom: 32px;
     right: 20px;
     font-size: 13px;
+    height: 20px
 }
 
 ::-webkit-input-placeholder {

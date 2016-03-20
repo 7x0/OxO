@@ -46,8 +46,12 @@
     <span id="clip" value="">{{.appSite}}/<span id="res"></span></span>
     <button class="meow" data-clipboard-target="#clip">复制</button>
   </div>
-
-  <span class="footer">Made with <span style="color: rgba(242, 101, 33, 1);">❤</span> in Amoy, by <a href="http://2x.io">Neo</a>.</span>
+  <span class="github">
+    <iframe src="https://ghbtns.com/github-btn.html?user=7x0&repo=OxO&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+  </span>
+  <span class="footer">
+    Made with <span style="color: rgba(242, 101, 33, 1);">❤</span> in Amoy.
+  </span>
 
   <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
   <script src="//cdn.bootcss.com/clipboard.js/1.5.9/clipboard.min.js"></script>
